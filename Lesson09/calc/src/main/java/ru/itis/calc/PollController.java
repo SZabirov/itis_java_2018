@@ -10,15 +10,16 @@ import java.util.List;
 
 @Controller
 public class PollController {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @Autowired//просит Spring проинициализировать данное поле
+    private JdbcTemplate jdbcTemplate;//объект для доступа к базе данных
 
     @RequestMapping("/polls")
     String getAllPolls(Model model) {
-        List<String> allPolls = jdbcTemplate.queryForList(
-                "SELECT question FROM poll;", String.class);
-        model.addAttribute("str0", allPolls.get(0));
-        model.addAttribute("str1", allPolls.get(1));
+        PollRowMapper mapper = new PollRowMapper();
+        List<Poll> allPolls = jdbcTemplate.query(
+                "SELECT id, question FROM poll;", mapper);
+
+        model.addAttribute("questions", allPolls);
         return "polls_template";
     }
 }
