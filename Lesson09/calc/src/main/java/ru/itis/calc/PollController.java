@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,5 +22,24 @@ public class PollController {
 
         model.addAttribute("questions", allPolls);
         return "polls_template";
+    }
+
+    @RequestMapping("/poll")
+    String poll(Model model,
+                @RequestParam int id) {
+        OptionRowMapper mapper = new OptionRowMapper();
+        List<Option> options = jdbcTemplate.query(
+          "SELECT id, text FROM option " +
+                  "WHERE poll_id = " + id + " ORDER BY id", mapper);
+        model.addAttribute("options", options);
+        return "poll_template";
+    }
+
+    @RequestMapping("/saveanswer")
+    String saveAnswer(Model model,
+                      @RequestParam int option) {
+        jdbcTemplate.update("UPDATE option SET " +
+                "count = count + 1 WHERE id = " + option);
+        return "redirect:/polls";
     }
 }

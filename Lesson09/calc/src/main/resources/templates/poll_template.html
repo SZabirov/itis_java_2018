@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Варианты ответа</title>
+</head>
+<body>
+<form action="/saveanswer">
+<#list options as opt>
+    <input type="radio" value="${opt.id}"
+           name="option">${opt.text}<br>
+</#list>
+    <input type="submit">
+</form>
+</body>
+</html>
