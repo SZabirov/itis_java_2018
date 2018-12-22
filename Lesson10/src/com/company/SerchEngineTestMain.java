@@ -1,5 +1,7 @@
 package com.company;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.TypeValidator;
+
 import java.util.ArrayList;
 
 public class SerchEngineTestMain {
@@ -7,14 +9,17 @@ public class SerchEngineTestMain {
         TextProvider t1 = new SimpleTextProvider("мама мыла раму");
         TextProvider t2 = new SimpleTextProvider("Я и мама, и я.");
         TextProvider t3 = new SimpleTextProvider("Я люблю футбол.");
-        ArrayList<TextProvider> textProviders = new ArrayList<>();
-        textProviders.add(t1);
-        textProviders.add(t2);
-        textProviders.add(t3);
+        ArrayList<TextProvider> sources = new ArrayList<>();
+        sources.add(t1);
+        sources.add(t2);
+        sources.add(t3);
         TextProvider query = new SimpleTextProvider("Я футбол");
 
         CosineTextAnalyzer ta = new CosineTextAnalyzer();
         SearchEngine se = new SearchEngine(ta);
-        ArrayList<TextProvider> result = se.order(textProviders, query);
+        se.order(sources, query);
+        for (TextProvider p : sources) {
+            System.out.println(p.getText());
+        }
     }
 }

@@ -5,3 +5,10 @@ package com.company;
 public interface TextProvider {
     String getText();
 }
+
+//public abstract class TextProvider {
+//    abstract String getText();
+//    void sayHello() {
+//        System.out.println("hello");
+//    }
+//}
